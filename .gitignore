@@ -1,0 +1,9 @@
+node_modules
+build
+coverage
+.DS_Store
+.npmrc
+*.tgz
+storybook-static
+__image_snapshots__
+build-storybook.log
