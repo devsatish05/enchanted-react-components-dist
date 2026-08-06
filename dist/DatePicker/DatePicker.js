@@ -82,7 +82,12 @@ const DEFAULT_FORMAT = 'MM/DD/YYYY';
 // Shared formatter used by both static and regular date picker variants — returns the day abbreviation unchanged
 // eslint-why dayOfWeekFormatter receives different types across MUI versions and must accept any
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const dayOfWeekFormatter = (date) => { return typeof date === 'string' ? date : String(date); };
+const dayOfWeekFormatter = (date) => {
+    if (dayjs_1.default.isDayjs(date)) {
+        return date.format('dd'); // or 'ddd' for 3-letter abbreviations ("Sun", "Mon")
+    }
+    return typeof date === 'string' ? date.slice(0, 2) : String(date);
+};
 // Number of year columns rendered in the year picker view.
 // Used by handleYearPickerKeyDown to correct arrow-key navigation for the non-static DatePicker.
 const YEARS_PER_ROW = 3;
@@ -147,16 +152,20 @@ const getDatePickerStyle = (theme, customStyles, staticMode) => {
             padding: '24px 13px',
             margin: '4px',
             width: 'auto',
-        }, '& .MuiPaper-root-MuiPickersPopper-paper .MuiDateCalendar-viewTransitionContainer': {
+        }, '& .MuiPickersPopper-paper, & .MuiDateCalendar-viewTransitionContainer': {
             padding: '0px',
             margin: '0px',
             width: '228px',
+        }, '& .MuiPickersArrowSwitcher-root': {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px', // Adds proper space between prev (<) and next (>) buttons
         }, '& .MuiPickersArrowSwitcher-spacer': {
             width: '4px',
         }, '& .MuiDayCalendar-weekContainer': {
             margin: '0px',
             width: '228px',
-        }, '& .MuiDayCalendar-weekDayLabel': Object.assign(Object.assign({}, theme.typography.body2), { color: theme.palette.text.secondary, margin: '4px 2px', width: '24px', padding: '0px', height: '16px' }), '& .MuiDateCalendar-viewTransitionContainer': {
+        }, '& .MuiDayCalendar-weekDayLabel': Object.assign(Object.assign({}, theme.typography.body2), { color: theme.palette.text.secondary, margin: '4px 2px', width: '24px', padding: '0px', height: '16px', lineHeight: '16px', overflow: 'hidden' }), '& .MuiDateCalendar-viewTransitionContainer': {
             width: '228px',
         }, '& .MuiDayCalendar-header': Object.assign(Object.assign({}, theme.typography.body1), { width: '228px' }), '& .MuiIconButton-root': {
             [`& .${SvgIcon_1.svgIconClasses.root}`]: {
@@ -275,9 +284,6 @@ const DatePicker = (_a) => {
         setStaticView('day');
         onAccept === null || onAccept === void 0 ? void 0 : onAccept(acceptedValue, context);
     }, [onAccept]);
-    const formatValue = (dateValue, dateFormat) => {
-        return dateValue.format(dateFormat);
-    };
     /**
      * Corrects Up/Down arrow key navigation in the year picker for the non-static DatePicker.
      * Our CSS renders 3 columns but MUI desktop mode may use a different default.
@@ -340,7 +346,7 @@ const DatePicker = (_a) => {
         unitLabel,
         hiddenLabel,
         nonEdit,
-        value: value !== null && value !== undefined ? `${formatValue(value, format || DEFAULT_FORMAT)}` : '',
+        // value: value !== null && value !== undefined ? `${formatValue(value as unknown as Dayjs, format || DEFAULT_FORMAT)}` : '',
         actionProps,
         inputProps: { placeholder: format },
         customIcon,
@@ -367,7 +373,9 @@ const DatePicker = (_a) => {
                 } }))));
     }
     // Render regular DatePicker with input field
-    return (react_1.default.createElement(DatePicker_1.DatePicker, Object.assign({}, muiProps, { disabled: disabled, value: value, format: format || DEFAULT_FORMAT, reduceAnimations: true, autoFocus: false, onOpen: focusDialog, dayOfWeekFormatter: dayOfWeekFormatter, slots: {
+    return (react_1.default.createElement(DatePicker_1.DatePicker, Object.assign({}, muiProps, { disabled: disabled, value: value, format: format || DEFAULT_FORMAT, reduceAnimations: true, autoFocus: false, onOpen: focusDialog, dayOfWeekFormatter: dayOfWeekFormatter, sx: {
+            width: fullWidth ? '100%' : '240px',
+        }, slots: {
             openPickerIcon: calendar_1.default,
             switchViewIcon: caret__down_1.default,
             textField: TextField_1.default,
