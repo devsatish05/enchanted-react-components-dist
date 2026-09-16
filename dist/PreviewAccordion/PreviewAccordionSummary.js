@@ -34,7 +34,7 @@ const AccordionSummary_1 = __importDefault(require("../Accordion/AccordionSummar
 const StyledMiddleSection = (0, styles_1.styled)('div')(() => {
     return {
         display: 'flex',
-        alignItems: 'left',
+        alignItems: 'flex-start',
         flexDirection: 'column',
         overflow: 'hidden',
         maxWidth: '100%',

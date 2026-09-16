@@ -121,7 +121,8 @@ const renderInputLabel = (props) => {
                 });
             } }), props.label),
         props.helperIconTooltip ? (react_1.default.createElement(Tooltip_1.default, { title: props.helperIconTooltip, placement: props.tooltipPlacement || Tooltip_1.TooltipPlacement.BOTTOM },
-            react_1.default.createElement("span", null, props.customIcon ? styledCustomIcon(props.customIcon) : react_1.default.createElement(exports.MuiInputHelpIcon, { color: "action", fontSize: "small", tabIndex: 0, enableHelpHoverEffect: props.enableHelpHoverEffect })))) : ('')));
+            react_1.default.createElement("span", { role: "img", "aria-label": props.helperIconTooltip }, props.customIcon ? styledCustomIcon(props.customIcon)
+                : react_1.default.createElement(exports.MuiInputHelpIcon, { color: "action", fontSize: "small", tabIndex: 0, enableHelpHoverEffect: props.enableHelpHoverEffect, focusable: "false" })))) : ('')));
 };
 exports.MuiGrid = (0, material_1.styled)(Grid_1.default)((theme) => {
     return {
@@ -130,9 +131,6 @@ exports.MuiGrid = (0, material_1.styled)(Grid_1.default)((theme) => {
             width: '100%',
             display: 'flex',
             justifyContent: 'space-between',
-        },
-        '&.MuiGrid-item': {
-            padding: 0,
         },
     };
 });
@@ -150,7 +148,7 @@ const renderInputLabelAndAction = (props) => {
     if (props.actionProps) {
         // To-Do: max 2 actions props for now, pending Figma design for many types of Action Links as discussed with UIUX
         const limitedActionProps = props.actionProps.slice(0, 2);
-        return (react_1.default.createElement(exports.MuiGrid, { container: true, spacing: 2 },
+        return (react_1.default.createElement(exports.MuiGrid, { container: true },
             react_1.default.createElement(exports.MuiGrid, { size: "auto", sx: (theme) => {
                     return {
                         [theme.breakpoints.up('md')]: {

@@ -123,7 +123,7 @@ const MuiGrid = (0, styles_1.styled)(Grid_1.default)((theme) => {
             margin: '0px',
             display: 'flex',
             minWidth: '0',
-            justifyContent: 'space-between',
+            justifyContent: 'space-between !important',
             width: '100%',
         },
         '&.MuiGrid-root': {

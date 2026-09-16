@@ -45,6 +45,7 @@ const getMuiLinkThemeOverrides = () => {
     return {
         MuiLink: {
             defaultProps: {
+                variant: 'body1',
                 align: 'inherit',
                 gutterBottom: false,
                 noWrap: false,

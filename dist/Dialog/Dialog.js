@@ -73,7 +73,9 @@ const getMuiDialogThemeOverrides = () => {
         MuiDialog: {
             styleOverrides: {
                 paper: ({ ownerState }) => {
-                    return (Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ padding: 0, width: 'calc(100% - 64px)' }, ownerState.size === DialogSizes.EXTRA_SMALL && {
+                    return (Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ padding: 0, width: 'calc(100% - 64px)', '&:focus-visible': {
+                            outline: 'none',
+                        } }, ownerState.size === DialogSizes.EXTRA_SMALL && {
                         maxWidth: '444px',
                     }), ownerState.size === DialogSizes.SMALL && {
                         maxWidth: '600px',

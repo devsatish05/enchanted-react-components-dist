@@ -5,5 +5,5 @@ type GridColumnMenuProps = MuiGridColumnMenuProps & {
     onColumnVisibilityModelChange: Function;
     columnVisibilityModel: GridColumnVisibilityModel;
 };
-export declare const ExtendedGridColumnMenu: ({ colDef, onSortModelChange, onColumnVisibilityModelChange, columnVisibilityModel, }: GridColumnMenuProps) => React.JSX.Element;
+export declare const ExtendedGridColumnMenu: ({ colDef, onSortModelChange, onColumnVisibilityModelChange, columnVisibilityModel, hideMenu, }: GridColumnMenuProps) => React.JSX.Element;
 export {};

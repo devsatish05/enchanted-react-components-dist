@@ -156,10 +156,6 @@ const getDatePickerStyle = (theme, customStyles, staticMode) => {
             padding: '0px',
             margin: '0px',
             width: '228px',
-        }, '& .MuiPickersArrowSwitcher-root': {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px', // Adds proper space between prev (<) and next (>) buttons
         }, '& .MuiPickersArrowSwitcher-spacer': {
             width: '4px',
         }, '& .MuiDayCalendar-weekContainer': {
@@ -167,6 +163,8 @@ const getDatePickerStyle = (theme, customStyles, staticMode) => {
             width: '228px',
         }, '& .MuiDayCalendar-weekDayLabel': Object.assign(Object.assign({}, theme.typography.body2), { color: theme.palette.text.secondary, margin: '4px 2px', width: '24px', padding: '0px', height: '16px', lineHeight: '16px', overflow: 'hidden' }), '& .MuiDateCalendar-viewTransitionContainer': {
             width: '228px',
+        }, '& .MuiPickersLayout-root': {
+            minWidth: '228px',
         }, '& .MuiDayCalendar-header': Object.assign(Object.assign({}, theme.typography.body1), { width: '228px' }), '& .MuiIconButton-root': {
             [`& .${SvgIcon_1.svgIconClasses.root}`]: {
                 padding: '0px',
@@ -351,6 +349,11 @@ const DatePicker = (_a) => {
         inputProps: { placeholder: format },
         customIcon,
     };
+    const arrowIconButtonSlotProps = {
+        previousIconButton: { size: 'small', onKeyDown: handleOnKeyDownLeft },
+        nextIconButton: { size: 'small', onKeyDown: handleOnKeyDownRight },
+    };
+    const calendarHeaderIconButtonSlotProps = Object.assign({ switchViewButton: { size: 'small' } }, arrowIconButtonSlotProps);
     // Static mode - render calendar without input field
     if (staticMode) {
         return (react_1.default.createElement(Paper_1.default, { variant: "elevation", sx: (theme) => { return getDatePickerStyle(theme, customStyles, true); } },
@@ -359,47 +362,52 @@ const DatePicker = (_a) => {
                 reduceAnimations: true, dayOfWeekFormatter: dayOfWeekFormatter, slots: {
                     switchViewIcon: caret__down_1.default,
                     day: CustomPickersDay,
-                }, slotProps: {
-                    actionBar: { actions: ['today'] },
-                    previousIconButton: { onKeyDown: handleOnKeyDownLeft },
-                    nextIconButton: { onKeyDown: handleOnKeyDownRight },
-                    toolbar: { hidden: true },
-                    day: {
+                }, slotProps: Object.assign(Object.assign({ actionBar: { actions: ['today'] } }, calendarHeaderIconButtonSlotProps), { toolbar: { hidden: true }, day: {
                         isStaticMode: staticMode,
                         onStaticChange: muiProps === null || muiProps === void 0 ? void 0 : muiProps.onChange,
                         // eslint-why MUI slotProps day type doesn't include custom isStaticMode/onStaticChange props
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    },
-                } }))));
+                    } }) }))));
     }
     // Render regular DatePicker with input field
-    return (react_1.default.createElement(DatePicker_1.DatePicker, Object.assign({}, muiProps, { disabled: disabled, value: value, format: format || DEFAULT_FORMAT, reduceAnimations: true, autoFocus: false, onOpen: focusDialog, dayOfWeekFormatter: dayOfWeekFormatter, sx: {
-            width: fullWidth ? '100%' : '240px',
+    return (react_1.default.createElement(DatePicker_1.DatePicker, Object.assign({}, muiProps, { disabled: disabled, value: value, format: format || DEFAULT_FORMAT, reduceAnimations: true, autoFocus: false, onOpen: focusDialog, dayOfWeekFormatter: dayOfWeekFormatter, sx: (theme) => {
+            return Object.assign(Object.assign({}, (!nonEdit && { width: fullWidth ? '100%' : '240px' })), { 
+                // Override focused label color to remain text.secondary (matching MUI v5 behavior)
+                '& .MuiAutocomplete--label--focused': {
+                    color: `${theme.palette.text.secondary} !important`,
+                }, '& .MuiInputLabel-root.Mui-focused': {
+                    color: `${theme.palette.text.secondary} !important`,
+                }, '& .MuiFormLabel-root.Mui-focused': {
+                    color: `${theme.palette.text.secondary} !important`,
+                }, 
+                // Override focused border color to remain border.tertiary (matching MUI v5 behavior)
+                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: `${theme.palette.border.tertiary} !important`,
+                    borderWidth: '1px !important',
+                }, '& .MuiOutlinedInput-root:focus-within .MuiOutlinedInput-notchedOutline': {
+                    border: `1px solid ${theme.palette.border.tertiary} !important`,
+                }, 
+                // Add margin-top for helper text to match MUI v5 spacing
+                '& .MuiFormHelperText-root': {
+                    marginTop: '4px',
+                } });
         }, slots: {
             openPickerIcon: calendar_1.default,
             switchViewIcon: caret__down_1.default,
             textField: TextField_1.default,
             day: CustomPickersDay,
-        }, slotProps: {
-            textField: textFieldSlotProps,
-            popper: {
+        }, slotProps: Object.assign(Object.assign({ textField: textFieldSlotProps, popper: {
                 placement: 'bottom-start',
                 id: `datepickerPopper-${popperId}`,
-            },
-            desktopPaper: {
+            }, desktopPaper: {
                 sx: (theme) => { return getDatePickerStyle(theme, customStyles); },
                 onKeyDownCapture: handleYearPickerKeyDown,
-            },
-            actionBar: { actions: ['today'] },
-            previousIconButton: { onKeyDown: handleOnKeyDownLeft },
-            nextIconButton: { onKeyDown: handleOnKeyDownRight },
-            day: {
+            }, actionBar: { actions: ['today'] }, openPickerButton: { size: 'medium' } }, calendarHeaderIconButtonSlotProps), { day: {
                 isStaticMode: false,
                 onStaticChange: null,
                 // eslint-why MUI slotProps day type doesn't include custom isStaticMode/onStaticChange props
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            },
-        } })));
+            } }) })));
 };
 __exportStar(require("@mui/x-date-pickers/DatePicker"), exports);
 exports.default = DatePicker;

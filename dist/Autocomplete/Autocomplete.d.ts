@@ -38,6 +38,7 @@ export interface AutocompleteProps<T, Multiple, DisableClearable, FreeSolo> exte
      * The banner is non-interactive and excluded from keyboard navigation.
      */
     listboxBanner?: AutocompleteBannerProps;
+    endAdornmentIconButton?: React.ReactNode;
 }
 declare const Autocomplete: {
     <T, Multiple extends boolean | undefined = undefined, DisableClearable extends boolean | undefined = undefined, FreeSolo extends boolean | undefined = undefined>({ ...props }: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>): React.JSX.Element;

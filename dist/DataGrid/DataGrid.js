@@ -86,11 +86,16 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
     const focusSelector = `.MuiDataGrid-row[data-id="${props.focusedRow}"]`;
     return Object.assign(Object.assign(Object.assign({ fontFamily: theme.typography.fontFamily, '&.MuiDataGrid-root': {
             border: 'none',
+            '--DataGrid-containerBackground': theme.palette.common.white,
         }, '& .MuiDataGrid-columnHeaders': Object.assign({ borderBottom: `1px ${theme.palette.border.primary} solid`, background: theme.palette.common.white, '& .MuiDataGrid-columnHeaderTitle': Object.assign(Object.assign({}, theme.typography.subtitle2), { fontColor: theme.palette.text.primary }) }, (props.stickyHeader === true) && {
             position: 'sticky',
             zIndex: 1,
-        }), ' .MuiDataGrid-cell': {
-            borderBottom: `1px ${theme.palette.border.secondary} solid`,
+        }), '& .MuiDataGrid-columnHeaderDraggableContainer > .MuiDataGrid-columnHeaderTitleContainer': {
+            gap: '0',
+        }, '& .MuiDataGrid-hide-checkbox > .MuiDataGrid-cell': {
+            borderTop: 'none',
+        }, '& .css-1sywo8n-MuiDataGrid-root, .MuiDataGrid-withBorderColor, .MuiDataGrid-columnHeader': {
+            borderBottom: 'none !important',
         }, '& .MuiDataGrid-row': {
             '.MuiCheckbox-root': {
                 marginRight: '0',
@@ -130,6 +135,7 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
         }, '& .withEndActions .MuiDataGrid-cell--withEndActions': {
             display: 'flex',
         }, '& .MuiDataGrid-cell': {
+            borderBottom: `1px ${theme.palette.border.secondary} solid`,
             paddingLeft: '12px',
             paddingRight: '12px',
             textAlign: 'center',

@@ -92,7 +92,7 @@ const DataGridCell = (props) => {
     const isAlignRight = colDef.align === 'right';
     return (react_1.default.createElement(material_1.Grid // parent grid of our custom cell
     , { tabIndex: props.tabIndex, onMouseEnter: handleOnActive, onMouseLeave: handleOnInactive, onFocus: handleOnActive, onKeyDown: (evt) => { return handleOnCellKeydown(evt); }, sx: (theme) => {
-            return Object.assign(Object.assign(Object.assign(Object.assign({}, theme.typography.body2), { minHeight: '36px', fontColor: theme.palette.text.primary, outline: 'none', width: '100%', height: '100%', alignItems: 'center', display: 'flex', '& .MuiCheckbox-root': {
+            return Object.assign(Object.assign(Object.assign(Object.assign({}, theme.typography.body2), { minHeight: '36px', minWidth: 'auto', fontColor: theme.palette.text.primary, outline: 'none', width: '100%', height: '100%', alignItems: 'center', display: 'flex', '& .MuiCheckbox-root': {
                     marginRight: '16px',
                 } }), (row.disabled && {
                 color: theme.palette.text.disabled,
@@ -102,18 +102,18 @@ const DataGridCell = (props) => {
                     width: '16px',
                 } });
         } },
-        colDef.iconStart && row[`iconStart-${colDef.field}`] && (react_1.default.createElement(material_1.Grid, { sx: Object.assign({ alignItems: 'center', display: 'flex', marginRight: '8px' }, (isAlignRight && {
+        colDef.iconStart && row[`iconStart-${colDef.field}`] && (react_1.default.createElement(material_1.Grid, { sx: Object.assign({ alignItems: 'center', display: 'flex', minWidth: 'auto', marginRight: '8px' }, (isAlignRight && {
                 marginLeft: 'auto',
                 marginRight: '0',
             })) }, row[`iconStart-${colDef.field}`])),
-        colDef.avatar && row[`avatar-${colDef.field}`] && (react_1.default.createElement(material_1.Grid, { sx: Object.assign(Object.assign({ alignItems: 'center', display: 'flex', marginRight: '8px' }, (isAlignRight && {
+        colDef.avatar && row[`avatar-${colDef.field}`] && (react_1.default.createElement(material_1.Grid, { sx: Object.assign(Object.assign({ alignItems: 'center', display: 'flex', minWidth: 'auto', marginRight: '8px' }, (isAlignRight && {
                 marginLeft: 'auto',
                 marginRight: '0',
             })), { '& .MuiAvatar-root': {
                     height: '20px',
                     width: '20px',
                 } }) }, row[`avatar-${colDef.field}`])),
-        props.value && (react_1.default.createElement(material_1.Grid, { ref: valueRef, sx: Object.assign({ alignItems: 'normal', textAlign: 'left', display: 'flex', flexDirection: 'column', marginRight: '8px', minWidth: '0', overflow: 'hidden' }, (isAlignRight && {
+        props.value && (react_1.default.createElement(material_1.Grid, { ref: valueRef, sx: Object.assign({ alignItems: 'normal', textAlign: 'left', display: 'flex', flexDirection: 'column', marginRight: '8px', minWidth: 'auto', overflow: 'hidden' }, (isAlignRight && {
                 marginLeft: `${colDef.iconStart || colDef.avatar ? '' : 'auto'}`,
                 marginRight: '0',
                 paddingLeft: '8px',
@@ -139,12 +139,12 @@ const DataGridCell = (props) => {
                 react_1.default.createElement(Typography_1.default, Object.assign({ className: "MuiDataGrid-cell--subTitle" }, subTitleTooltip && {
                     noWrap: true,
                 }, { variant: "caption", color: "text.secondary" }), row[`subTitle-${colDef.field}`]))))),
-        colDef.iconEnd && row[`iconEnd-${colDef.field}`] && (react_1.default.createElement(material_1.Grid, { sx: Object.assign({ alignItems: 'center', display: 'flex', marginRight: '8px' }, (isAlignRight && {
+        colDef.iconEnd && row[`iconEnd-${colDef.field}`] && (react_1.default.createElement(material_1.Grid, { sx: Object.assign({ alignItems: 'center', display: 'flex', minWidth: 'auto', marginRight: '8px' }, (isAlignRight && {
                 marginRight: '0',
             })) }, row[`iconEnd-${colDef.field}`])),
         colDef.endActions && row[`endActions-${colDef.field}`] && (react_1.default.createElement(material_1.Grid // this grid is for the container of end action button at the end of the cell
         , { className: colDef.endActions ? 'MuiDataGrid-cell--withEndActions' : '', "aria-hidden": !(isActive && !row.disabled && colDef.endActions && !hideEndActions && row[`endActions-${colDef.field}`].length > 0), sx: (theme) => {
-                return Object.assign(Object.assign({ display: 'none', alignItems: 'center', background: 'transparent' }, (isAlignRight ? Object.assign({ marginRight: '0' }, (colDef.iconEnd && { paddingLeft: '12px' })) : {
+                return Object.assign(Object.assign({ display: 'none', alignItems: 'center', minWidth: 'auto', background: 'transparent' }, (isAlignRight ? Object.assign({ marginRight: '0' }, (colDef.iconEnd && { paddingLeft: '12px' })) : {
                     marginLeft: 'auto',
                     marginRight: '0',
                 })), (isActive && !row.disabled
@@ -155,7 +155,7 @@ const DataGridCell = (props) => {
             return (
             // eslint-why index is not the sole key definition, it is prefixed by other identifiers
             // eslint-disable-next-line react/no-array-index-key
-            react_1.default.createElement(material_1.Grid, { sx: { marginLeft: '12px' }, key: `endActions-${row.id}-${colDef.field}-${index}` }, elem) // grid container button this is to margin to the buttons
+            react_1.default.createElement(material_1.Grid, { sx: { marginLeft: '12px', minWidth: 'auto' }, key: `endActions-${row.id}-${colDef.field}-${index}` }, elem) // grid container button this is to margin to the buttons
             );
         })))));
 };

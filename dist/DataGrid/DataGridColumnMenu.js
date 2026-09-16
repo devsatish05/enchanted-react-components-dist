@@ -27,29 +27,35 @@ const column_1 = __importDefault(require("@hcl-software/enchanted-icons/dist/car
 const view_1 = __importDefault(require("@hcl-software/enchanted-icons/dist/carbon/es/view"));
 const Divider_1 = __importDefault(require("../Divider"));
 const MenuItem_1 = __importDefault(require("../Menu/MenuItem"));
-const ExtendedGridColumnMenu = ({ colDef, onSortModelChange, onColumnVisibilityModelChange, columnVisibilityModel, }) => {
+const ExtendedGridColumnMenu = ({ colDef, onSortModelChange, onColumnVisibilityModelChange, columnVisibilityModel, hideMenu, }) => {
     const apiContext = (0, x_data_grid_1.useGridApiContext)();
-    const handleSortModelChange = (value) => {
+    const handleSortModelChange = (value, event) => {
         onSortModelChange([{ field: colDef.field, sort: value }]);
+        hideMenu === null || hideMenu === void 0 ? void 0 : hideMenu(event);
     };
-    const handleHideColumn = () => {
+    const handleHideColumn = (event) => {
         onColumnVisibilityModelChange(Object.assign(Object.assign({}, columnVisibilityModel), { [colDef.field]: false }));
+        hideMenu === null || hideMenu === void 0 ? void 0 : hideMenu(event);
+    };
+    const handleManageColumns = (event) => {
+        apiContext.current.showPreferences(x_data_grid_1.GridPreferencePanelsValue.columns);
+        hideMenu === null || hideMenu === void 0 ? void 0 : hideMenu(event);
     };
     return (react_1.default.createElement(material_1.Paper, { elevation: 3 },
-        react_1.default.createElement(MenuItem_1.default, { onClick: () => { handleSortModelChange('asc'); } },
+        react_1.default.createElement(MenuItem_1.default, { onClick: (event) => { handleSortModelChange('asc', event); } },
             react_1.default.createElement(arrow__up_1.default, null),
             ' ',
             "Ascending"),
-        react_1.default.createElement(MenuItem_1.default, { onClick: () => { handleSortModelChange('desc'); } },
+        react_1.default.createElement(MenuItem_1.default, { onClick: (event) => { handleSortModelChange('desc', event); } },
             react_1.default.createElement(arrow__down_1.default, null),
             ' ',
             "Descending"),
         react_1.default.createElement(Divider_1.default, null),
-        react_1.default.createElement(MenuItem_1.default, { onClick: () => { handleHideColumn(); } },
+        react_1.default.createElement(MenuItem_1.default, { onClick: handleHideColumn },
             react_1.default.createElement(view_1.default, null),
             ' ',
             "Hide column"),
-        react_1.default.createElement(MenuItem_1.default, { onClick: () => { apiContext.current.showPreferences(x_data_grid_1.GridPreferencePanelsValue.columns); } },
+        react_1.default.createElement(MenuItem_1.default, { onClick: handleManageColumns },
             react_1.default.createElement(column_1.default, null),
             ' ',
             "Manage columns")));

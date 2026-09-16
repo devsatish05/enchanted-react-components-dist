@@ -107,7 +107,7 @@ const getInputLabelAndActionProps = (props, isFocus) => {
 const Autocomplete = (_a) => {
     var _b;
     var props = __rest(_a, []);
-    const { helperText, helperIconTooltip, actionProps, focused, hiddenLabel, nonEdit, enableHelpHoverEffect, renderNonEditInput, endAdornmentAction, startAdornment, endAdornment, listboxBanner } = props, rest = __rest(props, ["helperText", "helperIconTooltip", "actionProps", "focused", "hiddenLabel", "nonEdit", "enableHelpHoverEffect", "renderNonEditInput", "endAdornmentAction", "startAdornment", "endAdornment", "listboxBanner"]) // clean up rest of props for MuiAutocomplete tag
+    const { helperText, helperIconTooltip, actionProps, focused, hiddenLabel, nonEdit, enableHelpHoverEffect, renderNonEditInput, endAdornmentAction, startAdornment, endAdornment, listboxBanner, endAdornmentIconButton } = props, rest = __rest(props, ["helperText", "helperIconTooltip", "actionProps", "focused", "hiddenLabel", "nonEdit", "enableHelpHoverEffect", "renderNonEditInput", "endAdornmentAction", "startAdornment", "endAdornment", "listboxBanner", "endAdornmentIconButton"]) // clean up rest of props for MuiAutocomplete tag
     ;
     // create a unique id for the autocomplete component if not provided
     props.id || (props.id = `autocomplete-${((_b = react_1.default.createRef().current) === null || _b === void 0 ? void 0 : _b.id) || Math.random().toString(36).substring(7)}`);
@@ -119,15 +119,6 @@ const Autocomplete = (_a) => {
     const [isValueOverFlowing, setIsValueOverFlowing] = react_1.default.useState(false);
     const [prevValue, setPrevValue] = react_1.default.useState('');
     const [selectedOption, setSelectedOption] = react_1.default.useState();
-    react_1.default.useEffect(() => {
-        const textFieldElement = textfieldRef.current;
-        if (textFieldElement && textFieldElement.scrollWidth > textFieldElement.clientWidth) {
-            setIsValueOverFlowing(true);
-        }
-        else {
-            setIsValueOverFlowing(false);
-        }
-    }, [props.value, prevValue]);
     const getIconsCount = react_1.default.useCallback((adornment) => {
         return react_1.default.Children.toArray(adornment).filter((child) => { return react_1.default.isValidElement(child); }).length;
     }, []);
@@ -141,30 +132,16 @@ const Autocomplete = (_a) => {
         // Each icon is assumed to be 21px wide. If the parent width is very small (<= 150px), subtract 5px for tighter spacing.
         const iconWidth = ((iconCount) * 21 - (parentWidth <= 150 ? 5 : 0));
         return Math.max(iconWidth, 0);
-    }, [props.startAdornment]);
-    const getEndAdornmentWidth = react_1.default.useCallback(() => {
-        var _a, _b, _c;
-        let iconCount = 0;
-        const parentWidth = ((_b = (_a = textfieldRef.current) === null || _a === void 0 ? void 0 : _a.parentElement) === null || _b === void 0 ? void 0 : _b.offsetWidth) || 0;
-        if (props.endAdornment) {
-            iconCount += getIconsCount(props.endAdornment);
+    }, [props.startAdornment, getIconsCount]);
+    react_1.default.useEffect(() => {
+        const textFieldElement = textfieldRef.current;
+        if (textFieldElement && textFieldElement.scrollWidth > textFieldElement.clientWidth) {
+            setIsValueOverFlowing(true);
         }
-        // Check for freeSolo first because if it's true, then the caret down icon will not be shown.
-        iconCount += props.freeSolo ? 0 : 1;
-        // Check if the component is disabled or disableClearable is true.
-        // If either is true, the clear icon will not be shown.
-        if (!props.disabled && !((_c = props.disableClearable) !== null && _c !== void 0 ? _c : false)) {
-            if (props.value) {
-                iconCount += 1; // show clear icon
-            }
+        else {
+            setIsValueOverFlowing(false);
         }
-        // Check if error icon should be shown.
-        iconCount += props.error ? 1 : 0;
-        // Calculate the total width needed for the input adornment area based on the number of icons.
-        // Each icon is assumed to be 21px wide. If the parent width is very small (<= 150px), subtract 5px for tighter spacing.
-        const iconWidth = ((iconCount) * 21 - (parentWidth <= 150 ? 5 : 0));
-        return Math.max(iconWidth, 0);
-    }, [props.endAdornment, props.error, props.freeSolo, props.disabled, textfieldRef]);
+    }, [props.value, prevValue]);
     const handleChange = (event, value, reason, details) => {
         // Value can be an option from the list or null if cleared
         setSelectedOption(value);
@@ -196,15 +173,13 @@ const Autocomplete = (_a) => {
                     var _a, _b, _c, _d, _e;
                     const textFieldArgs = Object.assign(Object.assign({}, params), { placeholder: props.placeholder, error: Boolean(props.error), required: props.required, fullWidth: props.fullWidth, sx: Object.assign(Object.assign({}, props.sx), { '& .MuiInputAdornment-root.MuiInputAdornment-positionStart': {
                                 width: getStartAdornmentWidth(),
-                            }, '& .MuiInputAdornment-root.MuiInputAdornment-positionEnd': {
-                                width: getEndAdornmentWidth(),
-                                marginLeft: getEndAdornmentWidth() > 0 ? '8px' : '0px', // add some spacing if there are icons in the end adornment
                             } }), focused,
                         hiddenLabel,
                         helperIconTooltip,
                         actionProps,
                         nonEdit, size: props.size, autoFocus: props.autoFocus, renderNonEditInput,
-                        endAdornmentAction, value: props.value, enableHelpHoverEffect, InputProps: Object.assign(Object.assign({}, params.InputProps), { startAdornment: startAdornment
+                        endAdornmentAction,
+                        endAdornmentIconButton, value: props.value, enableHelpHoverEffect, InputProps: Object.assign(Object.assign({}, params.InputProps), { startAdornment: startAdornment
                                 ? (react_1.default.createElement(react_1.default.Fragment, null,
                                     react_1.default.createElement(material_1.InputAdornment, { position: "start" }, startAdornment), (_a = params.InputProps) === null || _a === void 0 ? void 0 :
                                     _a.startAdornment))
@@ -295,7 +270,10 @@ const Autocomplete = (_a) => {
                         react_1.default.createElement("div", null,
                             react_1.default.createElement(TextField_1.default, Object.assign({}, textFieldArgs, { inputRef: textfieldRef }))))) : (react_1.default.createElement(TextField_1.default, Object.assign({}, textFieldArgs, { inputRef: textfieldRef })));
                 } })),
-            react_1.default.createElement(FormHelperText_1.default, { id: helperTextId, sx: { marginTop: nonEdit ? '0px' : '4px' } }, helperText))));
+            react_1.default.createElement(FormHelperText_1.default, Object.assign({ id: helperTextId, sx: { marginTop: nonEdit ? '0px' : '4px' } }, (props.error && {
+                role: 'alert',
+                'aria-live': 'polite',
+            })), helperText))));
 };
 const getMuiAutocompleteThemeOverrides = () => {
     return {
@@ -323,11 +301,9 @@ const getMuiAutocompleteThemeOverrides = () => {
                             }, '.MuiFormHelperText-root': {
                                 display: 'none',
                             } }, theme_1.TYPOGRAPHY.body1), { '& .MuiFormLabel-root': Object.assign(Object.assign({}, theme_1.TYPOGRAPHY.subtitle2), { height: '16px' }), '& .MuiSvgIcon-colorError': {
-                                position: 'absolute',
-                                right: ownerState.freeSolo ? '10px' : '32px',
-                                height: '100%',
-                                verticalAlign: 'middle',
-                                top: '0px',
+                                position: 'static',
+                                height: '16px',
+                                width: '16px',
                             }, '& .MuiInputBase-root': {
                                 paddingTop: '5px',
                                 paddingBottom: '5px',
@@ -345,12 +321,13 @@ const getMuiAutocompleteThemeOverrides = () => {
                                         position: 'relative',
                                     },
                                     '.MuiAutocomplete-endAdornment': {
-                                        right: '8px',
+                                        position: 'static',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '8px',
                                         '.MuiButtonBase-root': {
-                                            top: '-1px',
-                                            // eslint-why - a nested ternary is needed
-                                            // eslint-disable-next-line no-nested-ternary
-                                            margin: ownerState.error ? (ownerState.freeSolo ? '0px 30px 0px 4px' : '0px 36px 0px 4px') : '0px 6px 0px 4px',
+                                            top: 'auto',
+                                            margin: '0px',
                                             '&.MuiAutocomplete-popupIndicator ': {
                                                 position: 'relative',
                                                 margin: '0px',
@@ -359,6 +336,18 @@ const getMuiAutocompleteThemeOverrides = () => {
                                                     width: '16px',
                                                 },
                                             },
+                                        },
+                                    },
+                                    // Direct selectors for new structure where MuiAutocomplete-endAdornment wrapper is extracted
+                                    '.MuiAutocomplete-clearIndicator, .MuiAutocomplete-popupIndicator': {
+                                        top: 'auto',
+                                        margin: '0px',
+                                    },
+                                    '.MuiAutocomplete-popupIndicator': {
+                                        position: 'relative',
+                                        '.MuiSvgIcon-root': {
+                                            height: '16px',
+                                            width: '16px',
                                         },
                                     },
                                 },

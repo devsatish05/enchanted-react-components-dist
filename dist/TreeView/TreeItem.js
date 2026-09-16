@@ -46,7 +46,7 @@ exports.TreeViewContext = exports.TreeDepthContext = void 0;
 const react_1 = __importDefault(require("react"));
 const Box_1 = __importDefault(require("@mui/material/Box"));
 const Typography_1 = __importDefault(require("@mui/material/Typography"));
-const TreeItem2_1 = require("@mui/x-tree-view/TreeItem2");
+const TreeItem_1 = require("@mui/x-tree-view/TreeItem");
 /**
  * Context tracking nesting depth (0 = root level).
  * Used to compute the level-line position and content padding.
@@ -72,6 +72,7 @@ const IconSlot = ({ className, children }) => {
     return (react_1.default.createElement(Box_1.default, { "aria-hidden": "true", className: `tree-item-icon${className ? ` ${className}` : ''}`, sx: ICON_SLOT_SX }, children));
 };
 const TreeItem = react_1.default.forwardRef((_a, ref) => {
+    var _b;
     var { label, startIcon, statusBadge, detailsIcon, detailsText, detailsAlign = 'label', endIcon, endAction, hoverActions, children, disabled } = _a, props = __rest(_a, ["label", "startIcon", "statusBadge", "detailsIcon", "detailsText", "detailsAlign", "endIcon", "endAction", "hoverActions", "children", "disabled"]);
     const depth = react_1.default.useContext(exports.TreeDepthContext);
     const { usingKeyboardRef, focusTree, navigateToNextItemAction, showLevelLine, disabled: contextDisabled, } = react_1.default.useContext(exports.TreeViewContext);
@@ -284,11 +285,7 @@ const TreeItem = react_1.default.forwardRef((_a, ref) => {
                     transition: 'max-width 0.2s ease, opacity 0.2s ease, visibility 0s',
                 },
             } }, hoverActions))));
-    return (react_1.default.createElement(TreeItem2_1.TreeItem2, Object.assign({ ref: setRef, className: isFocused ? 'keyboard-focused' : undefined, slotProps: {
-            root: {
-                style: contentPaddingLeft !== undefined ? { paddingInlineStart: `${contentPaddingLeft}px` } : undefined,
-            },
-        } }, props, { disabled: contextDisabled || disabled, label: customLabel }), wrappedChildren));
+    return (react_1.default.createElement(TreeItem_1.TreeItem, Object.assign({ ref: setRef, className: isFocused ? 'keyboard-focused' : undefined }, props, { ContentProps: Object.assign(Object.assign({}, props.ContentProps), { style: Object.assign(Object.assign({}, (_b = props.ContentProps) === null || _b === void 0 ? void 0 : _b.style), (contentPaddingLeft !== undefined && { paddingInlineStart: `${contentPaddingLeft}px` })) }), disabled: contextDisabled || disabled, label: customLabel }), wrappedChildren));
 });
 TreeItem.displayName = 'TreeItem';
 __exportStar(require("@mui/lab/TreeItem"), exports);

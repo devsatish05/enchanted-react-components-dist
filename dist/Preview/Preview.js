@@ -75,6 +75,7 @@ const colors_1 = require("../colors");
 const zoomButtonMargin = 12;
 const PreviewContainer = (0, styles_1.styled)(material_1.Grid)((props) => {
     return {
+        width: '100%',
         height: '100vh',
         ' .MuiSvgIcon-root': {
             pointerEvents: 'none',

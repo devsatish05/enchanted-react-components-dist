@@ -74,6 +74,9 @@ const StyledAccordionSummary = (0, styles_1.styled)(AccordionSummary_1.default)(
                 margin: '0px',
             },
         },
+        '& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root:not(.endIcon)': {
+            margin: '2px',
+        },
         '.MuiTypography-root': Object.assign({}, (disabled && {
             color: theme.palette.text.disabled,
         })),

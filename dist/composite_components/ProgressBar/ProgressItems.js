@@ -206,6 +206,9 @@ const ProgressItems = (props) => {
     const isRTL = direction === 'rtl';
     const [hover, setHover] = (0, react_1.useState)(null);
     const [focus, setFocus] = (0, react_1.useState)(null);
+    // Tracks which tooltip is open; reset on scroll to prevent tooltips floating outside the container.
+    const [openTooltipId, setOpenTooltipId] = (0, react_1.useState)(null);
+    const tooltipContainerRef = (0, react_1.useRef)(null);
     let folderId = '';
     /**
      * Renders the progress indicator based on the upload status and progress.
@@ -230,7 +233,7 @@ const ProgressItems = (props) => {
      */
     const renderHoverIcon = (queueItem) => {
         if (queueItem.status === ProgressBar_1.EnumUploadStatus.SUCCESS && navigateFolder) {
-            return (react_1.default.createElement(Tooltip_1.default, { title: translation === null || translation === void 0 ? void 0 : translation.navigateButtonTooltip, tooltipsize: "small", placement: "left", PopperProps: {
+            return (react_1.default.createElement(Tooltip_1.default, { title: translation === null || translation === void 0 ? void 0 : translation.navigateButtonTooltip, tooltipsize: "small", placement: "left", open: openTooltipId === `navigate_${queueItem.name}_${queueItem.timestamp}`, onOpen: () => { setOpenTooltipId(`navigate_${queueItem.name}_${queueItem.timestamp}`); }, onClose: () => { setOpenTooltipId(null); }, PopperProps: {
                     disablePortal: true,
                 }, componentsProps: {
                     tooltip: {
@@ -247,7 +250,7 @@ const ProgressItems = (props) => {
                     react_1.default.createElement(folders_1.default, null))));
         }
         if ((queueItem.status === ProgressBar_1.EnumUploadStatus.PROGRESS || queueItem.status === ProgressBar_1.EnumUploadStatus.PENDING) && cancelItem) {
-            return (react_1.default.createElement(Tooltip_1.default, { title: translation === null || translation === void 0 ? void 0 : translation.errorButtonTooltip, tooltipsize: "small", placement: "left", PopperProps: {
+            return (react_1.default.createElement(Tooltip_1.default, { title: translation === null || translation === void 0 ? void 0 : translation.errorButtonTooltip, tooltipsize: "small", placement: "left", open: openTooltipId === `cancel_${queueItem.name}_${queueItem.timestamp}`, onOpen: () => { setOpenTooltipId(`cancel_${queueItem.name}_${queueItem.timestamp}`); }, onClose: () => { setOpenTooltipId(null); }, PopperProps: {
                     disablePortal: true,
                 }, componentsProps: {
                     tooltip: {
@@ -264,7 +267,7 @@ const ProgressItems = (props) => {
                     react_1.default.createElement(error_1.default, null))));
         }
         if (queueItem.status === ProgressBar_1.EnumUploadStatus.FAILURE && retryUploadItem) {
-            return (react_1.default.createElement(Tooltip_1.default, { title: translation === null || translation === void 0 ? void 0 : translation.retryButtonTooltip, tooltipsize: "small", placement: "left", PopperProps: {
+            return (react_1.default.createElement(Tooltip_1.default, { title: translation === null || translation === void 0 ? void 0 : translation.retryButtonTooltip, tooltipsize: "small", placement: "left", open: openTooltipId === `retry_${queueItem.name}_${queueItem.timestamp}`, onOpen: () => { setOpenTooltipId(`retry_${queueItem.name}_${queueItem.timestamp}`); }, onClose: () => { setOpenTooltipId(null); }, PopperProps: {
                     disablePortal: true,
                 }, componentsProps: {
                     tooltip: {
@@ -382,7 +385,15 @@ const ProgressItems = (props) => {
             iconImage: undefined,
         };
     };
-    return (react_1.default.createElement(StyledList, null, Array.from(file).map((queueItem) => {
+    return (react_1.default.createElement(StyledList, { ref: tooltipContainerRef, onScroll: () => {
+            if (openTooltipId !== null) {
+                // Hide the tooltip immediately when the list is scrolled.
+                document.querySelectorAll('[role="tooltip"]').forEach((el) => {
+                    el.style.visibility = 'hidden';
+                });
+                setOpenTooltipId(null);
+            }
+        } }, Array.from(file).map((queueItem) => {
         const showLearnMoreButton = queueItem && queueItem.showLearnMore !== undefined ? queueItem.showLearnMore : false;
         if (queueItem.type === ProgressBar_1.ProgressItemType.Folder) {
             folderId = queueItem.collectionId;
@@ -396,7 +407,7 @@ const ProgressItems = (props) => {
                             react_1.default.createElement(Avatar_1.default, { iconImage: queueItem.type === ProgressBar_1.ProgressItemType.Folder ? react_1.default.createElement(folder_1.default, null) : iconImage, color: Avatar_1.AvatarColors.DEFAULT, variant: "rounded", type: Avatar_1.AvatarTypes.ICON, style: { height: '24px', width: '24px' } }))) : (react_1.default.createElement(ListItemAvatar_1.default, null,
                         react_1.default.createElement(Avatar_1.default, { iconImage: queueItem.type === 'folder' ? react_1.default.createElement(folder_1.default, null) : iconImage, color: Avatar_1.AvatarColors.DEFAULT, variant: "rounded", type: Avatar_1.AvatarTypes.ICON, style: { height: '24px', width: '24px', opacity: 0.38 } }))),
                     queueItem.status !== ProgressBar_1.EnumUploadStatus.PENDING
-                        ? (react_1.default.createElement(ListItemText_1.default, { primary: (react_1.default.createElement(Tooltip_1.default, { title: queueItem.name, tooltipsize: "small", placement: "left", componentsProps: {
+                        ? (react_1.default.createElement(ListItemText_1.default, { primary: (react_1.default.createElement(Tooltip_1.default, { title: queueItem.name, tooltipsize: "small", placement: "left", open: openTooltipId === `name_${queueItem.name}_${queueItem.timestamp}`, onOpen: () => { setOpenTooltipId(`name_${queueItem.name}_${queueItem.timestamp}`); }, onClose: () => { setOpenTooltipId(null); }, componentsProps: {
                                     tooltip: {
                                         sx: {
                                             maxWidth: '252px',
@@ -409,11 +420,11 @@ const ProgressItems = (props) => {
                                 queueItem.status === ProgressBar_1.EnumUploadStatus.SUCCESS && (react_1.default.createElement("span", { "data-testid": "upload-status-label" }, !queueItem.message ? translation === null || translation === void 0 ? void 0 : translation.successLabel : queueItem.message)),
                                 queueItem.status === ProgressBar_1.EnumUploadStatus.PROGRESS && (react_1.default.createElement("span", null, translation === null || translation === void 0 ? void 0 : translation.progressLabel)),
                                 queueItem.status === ProgressBar_1.EnumUploadStatus.CANCELLED && (react_1.default.createElement("span", null, translation === null || translation === void 0 ? void 0 : translation.cancelledLabel)),
-                                queueItem.status === ProgressBar_1.EnumUploadStatus.FAILURE && (react_1.default.createElement(Tooltip_1.default, { title: queueItem.message, tooltipsize: "small" },
+                                queueItem.status === ProgressBar_1.EnumUploadStatus.FAILURE && (react_1.default.createElement(Tooltip_1.default, { title: queueItem.message, tooltipsize: "small", open: openTooltipId === `failure_${queueItem.name}_${queueItem.timestamp}`, onOpen: () => { setOpenTooltipId(`failure_${queueItem.name}_${queueItem.timestamp}`); }, onClose: () => { setOpenTooltipId(null); } },
                                     react_1.default.createElement("span", { "data-testid": "failed-status-label", style: {
                                             maxWidth: showLearnMoreButton ? '134px' : '252px',
                                         } }, !queueItem.message ? translation === null || translation === void 0 ? void 0 : translation.failureLabel : queueItem.message))),
-                                showLearnMoreButton && (react_1.default.createElement(Tooltip_1.default, { title: literals.learnMoreLabel, tooltipsize: "small", placement: "left", componentsProps: {
+                                showLearnMoreButton && (react_1.default.createElement(Tooltip_1.default, { title: literals.learnMoreLabel, tooltipsize: "small", placement: "left", open: openTooltipId === `learnmore_${queueItem.name}_${queueItem.timestamp}`, onOpen: () => { setOpenTooltipId(`learnmore_${queueItem.name}_${queueItem.timestamp}`); }, onClose: () => { setOpenTooltipId(null); }, componentsProps: {
                                         tooltip: {
                                             sx: {
                                                 whiteSpace: 'nowrap',
@@ -425,7 +436,7 @@ const ProgressItems = (props) => {
                                                 learnMoreOnFailure(event);
                                             }
                                         }, "data-testid": "learn-more-button" },
-                                        react_1.default.createElement(Typography_1.default, { variant: "caption" }, literals.learnMoreLabel)))))) })) : (react_1.default.createElement(ListItemText_1.default, { primary: (react_1.default.createElement(Tooltip_1.default, { title: queueItem.name, tooltipsize: "small", placement: "left", componentsProps: {
+                                        react_1.default.createElement(Typography_1.default, { variant: "caption" }, literals.learnMoreLabel)))))) })) : (react_1.default.createElement(ListItemText_1.default, { primary: (react_1.default.createElement(Tooltip_1.default, { title: queueItem.name, tooltipsize: "small", placement: "left", open: openTooltipId === `name_${queueItem.name}_${queueItem.timestamp}`, onOpen: () => { setOpenTooltipId(`name_${queueItem.name}_${queueItem.timestamp}`); }, onClose: () => { setOpenTooltipId(null); }, componentsProps: {
                                 tooltip: {
                                     sx: {
                                         maxWidth: '252px',

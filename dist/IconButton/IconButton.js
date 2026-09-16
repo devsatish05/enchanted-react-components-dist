@@ -168,13 +168,14 @@ const getMuiIconButtonThemeOverrides = () => {
 };
 exports.getMuiIconButtonThemeOverrides = getMuiIconButtonThemeOverrides;
 const IconButton = react_1.default.forwardRef((_a, forwardRef) => {
+    var _b;
     var { showendicon: showendiconProp } = _a, rawProps = __rest(_a, ["showendicon"]);
     const showendicon = showendiconProp !== null && showendiconProp !== void 0 ? showendiconProp : false;
     const props = Object.assign({ size: IconButtonSizes.MEDIUM, variant: IconButtonVariants.WITH_PADDING, color: 'default', selected: false, disabled: false, inversecolors: false, disableFocusRipple: true, edge: false, centerRipple: true, disableRipple: true, disableTouchRipple: true, focusRipple: true, tabIndex: 0 }, rawProps);
     props.inversecolors = props.inversecolors ? 1 : 0;
     return (react_1.default.createElement(StyledMainContainer, { className: `IconButtonMainContainer ${props.selected ? 'selected' : ''} ${props.disabled ? 'disabled' : ''} ${props.className}`, inversecolors: Boolean(props.inversecolors) },
         react_1.default.createElement(StyledSubContainer, { className: `${props.selected ? 'selected' : ''} ${props.disabled ? 'disabled' : ''} ${props.className}`, inversecolors: Boolean(props.inversecolors) },
-            react_1.default.createElement(IconButton_1.default, Object.assign({}, props, { ref: forwardRef, role: "button", "aria-disabled": props.disabled, className: `${props.selected ? 'selected' : ''} ${props.className}` }),
+            react_1.default.createElement(IconButton_1.default, Object.assign({}, props, { ref: forwardRef, role: "button", "aria-disabled": props.disabled, "aria-label": (_b = props['aria-label']) !== null && _b !== void 0 ? _b : props.label, className: `${props.selected ? 'selected' : ''} ${props.className}` }),
                 props.children,
                 (showendicon === 1 || showendicon === true) && (react_1.default.createElement(chevron__down_1.default, { className: "endIcon", "data-testid": IconButtonTestIds.ICONBUTTON_END_ICON, sx: (theme) => {
                         return Object.assign(Object.assign({ color: (props.inversecolors) ? theme.palette.action.inverse : theme.palette.action.active, width: '12px', height: '12px', margin: '0', padding: '0' }, props.variant === IconButtonVariants.WITH_PADDING && Object.assign(Object.assign({ marginLeft: '-2px' }, props.size === IconButtonSizes.SMALL && {
