@@ -87,15 +87,31 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
     return Object.assign(Object.assign(Object.assign({ fontFamily: theme.typography.fontFamily, '&.MuiDataGrid-root': {
             border: 'none',
             '--DataGrid-containerBackground': theme.palette.common.white,
-        }, '& .MuiDataGrid-columnHeaders': Object.assign({ borderBottom: `1px ${theme.palette.border.primary} solid`, background: theme.palette.common.white, '& .MuiDataGrid-columnHeaderTitle': Object.assign(Object.assign({}, theme.typography.subtitle2), { fontColor: theme.palette.text.primary }) }, (props.stickyHeader === true) && {
+            '--DataGrid-overlayHeight': 'calc(var(--height) * 2)',
+        }, '& .MuiDataGrid-columnHeaders': Object.assign({ background: theme.palette.common.white, '& .MuiDataGrid-columnHeaderTitle': Object.assign(Object.assign({}, theme.typography.subtitle2), { fontColor: theme.palette.text.primary }) }, (props.stickyHeader === true) && {
             position: 'sticky',
             zIndex: 1,
-        }), '& .MuiDataGrid-columnHeaderDraggableContainer > .MuiDataGrid-columnHeaderTitleContainer': {
+        }), [`& .${x_data_grid_1.gridClasses['row--borderBottom']} .${x_data_grid_1.gridClasses.filler}`]: {
+            borderBottom: `1px ${theme.palette.border.primary} solid !important`,
+        }, 
+        // In MUI v7, border-bottom on column header cells (from row--borderBottom) is added ON TOP
+        // of the row height (37px content + 1px border = 38px visible). In v5, the border was on
+        // the container with box-sizing: border-box, so it was INCLUDED within 37px.
+        // This fix uses box-sizing: border-box so the border fits within the inline height.
+        [`& .${x_data_grid_1.gridClasses['row--borderBottom']} .${x_data_grid_1.gridClasses.columnHeader}`]: {
+            boxSizing: 'border-box',
+            borderBottom: `1px ${theme.palette.border.primary} solid !important`,
+        }, [`& .${x_data_grid_1.gridClasses['row--borderBottom']} .${x_data_grid_1.gridClasses.scrollbarFiller}`]: {
+            boxSizing: 'border-box',
+        }, '& .MuiDataGrid-columnHeaderDraggableContainer > .MuiDataGrid-columnHeaderTitleContainer': {
             gap: '0',
         }, '& .MuiDataGrid-hide-checkbox > .MuiDataGrid-cell': {
             borderTop: 'none',
-        }, '& .css-1sywo8n-MuiDataGrid-root, .MuiDataGrid-withBorderColor, .MuiDataGrid-columnHeader': {
-            borderBottom: 'none !important',
+        }, 
+        // Remove default MUI withBorderColor border from column headers.
+        // The row--borderBottom border (set above with higher specificity + !important) is preserved.
+        '& .MuiDataGrid-withBorderColor, & .MuiDataGrid-columnHeader': {
+            borderBottom: 'none',
         }, '& .MuiDataGrid-row': {
             '.MuiCheckbox-root': {
                 marginRight: '0',
@@ -180,6 +196,8 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
         }, '& .MuiDataGrid-columnHeaders:focus': {
             outline: 'none',
             border: `1px ${theme.palette.action.focus} solid`,
+        }, '& .css-bvnt8w-MuiGrid-root': {
+            height: `auto !important`,
         }, '& .MuiDataGrid-columnHeader--alignRight .MuiDataGrid-columnHeaderTitleContainer': {
             flexDirection: 'row',
             '& .MuiDataGrid-columnHeaderTitleContainerContent': {
@@ -243,6 +261,8 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
         }, '& .MuiDataGrid-columnHeader.MuiDataGrid-columnHeader--sortable:focus': {
             outline: 'none',
             border: 'none',
+        }, '& .MuiDataGrid-row--lastVisible .MuiDataGrid-cell': {
+            borderBottom: 'none',
         }, '& .MuiDataGrid-overlay': {
             background: theme.palette.common.white,
         } }, (props.stickyHeader === true) && {

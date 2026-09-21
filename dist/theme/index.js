@@ -306,6 +306,8 @@ const getThemeOptions = (direction, mode) => {
                                 '& > :where(.MuiGrid-root)': {
                                     paddingLeft: 'var(--Grid-columnSpacing)',
                                     paddingTop: 'var(--Grid-rowSpacing)',
+                                    '--Grid-parent-columnSpacing': '0px',
+                                    '--Grid-parent-rowSpacing': '0px',
                                 },
                             },
                         }));

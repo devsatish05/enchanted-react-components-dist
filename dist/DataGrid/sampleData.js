@@ -293,8 +293,10 @@ exports.sampleColumnsWithSubTitle = exports.sampleColumns.map((col) => {
     }
     return col;
 });
-const disabledRow = [
-    ...exports.sampleRows,
-    Object.assign(Object.assign({}, exports.sampleRows[10]), { disabled: true }),
-];
+const disabledRow = exports.sampleRows.map((row, index) => {
+    if (index === 10) {
+        return Object.assign(Object.assign({}, row), { disabled: true });
+    }
+    return row;
+});
 exports.sampleRowsWithDisabledRow = (0, exports.processRow)(disabledRow, false, true);

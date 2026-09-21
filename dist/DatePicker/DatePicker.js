@@ -127,7 +127,7 @@ const CustomPickersDay = (props) => {
         react_1.default.createElement(PickersDay_1.PickersDay, Object.assign({ day: day }, dayProps, (isStaticMode && { onClick: handleDayClick })))));
 };
 const getDatePickerStyle = (theme, customStyles, staticMode) => {
-    return Object.assign(Object.assign(Object.assign({}, theme.typography.body2), { margin: staticMode ? '0px' : '6px 0px 0px -8px', padding: '0px', height: 'auto', width: '228px', color: `1px solid ${theme.palette.background.paper}`, boxShadow: 1, '& .MuiDateCalendar-root': {
+    return Object.assign(Object.assign(Object.assign({}, theme.typography.body2), { margin: staticMode ? '0px' : '1px 0px 0px 0px', padding: '0px', height: 'auto', width: '228px', color: `1px solid ${theme.palette.background.paper}`, boxShadow: 1, '& .MuiDateCalendar-root': {
             width: '228px',
             margin: '0px',
             height: 'auto',
