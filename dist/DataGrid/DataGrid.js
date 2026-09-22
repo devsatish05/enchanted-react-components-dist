@@ -87,7 +87,7 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
     return Object.assign(Object.assign(Object.assign({ fontFamily: theme.typography.fontFamily, '&.MuiDataGrid-root': {
             border: 'none',
             '--DataGrid-containerBackground': theme.palette.common.white,
-            '--DataGrid-overlayHeight': 'calc(var(--height) * 2)',
+            '--DataGrid-overlayHeight': 'calc(var(--height) * 3)',
         }, '& .MuiDataGrid-columnHeaders': Object.assign({ background: theme.palette.common.white, '& .MuiDataGrid-columnHeaderTitle': Object.assign(Object.assign({}, theme.typography.subtitle2), { fontColor: theme.palette.text.primary }) }, (props.stickyHeader === true) && {
             position: 'sticky',
             zIndex: 1,
@@ -196,8 +196,10 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
         }, '& .MuiDataGrid-columnHeaders:focus': {
             outline: 'none',
             border: `1px ${theme.palette.action.focus} solid`,
-        }, '& .css-bvnt8w-MuiGrid-root': {
-            height: `auto !important`,
+        }, '& .css-bvnt8w-MuiGrid-root, .css-p270s1-MuiGrid-root': {
+            height: 'auto !important',
+        }, '& .MuiDataGrid-cell--textLeft > .css-4v6mj8-MuiGrid-root': {
+            height: 'auto !important',
         }, '& .MuiDataGrid-columnHeader--alignRight .MuiDataGrid-columnHeaderTitleContainer': {
             flexDirection: 'row',
             '& .MuiDataGrid-columnHeaderTitleContainerContent': {
@@ -265,6 +267,11 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
             borderBottom: 'none',
         }, '& .MuiDataGrid-overlay': {
             background: theme.palette.common.white,
+            height: '100% !important',
+        }, '& .MuiDataGrid-overlayWrapperInner': {
+            height: 'auto !important',
+            minHeight: '74px',
+            display: 'flex',
         } }, (props.stickyHeader === true) && {
         '& .MuiDataGrid-main': {
             // remove overflow hidden overwise sticky does not work

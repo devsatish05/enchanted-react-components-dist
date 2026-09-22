@@ -72,9 +72,10 @@ exports.buttonDefaultProps = {
 const Button = react_1.default.forwardRef((rawProps, forwardRef) => {
     const props = Object.assign(Object.assign({}, exports.buttonDefaultProps), rawProps);
     props.inversecolors = props.inversecolors ? 1 : 0;
-    // 1. Extract variant and inversecolors so they are NOT inside restProps
+    // Extract variant separately for the local sx below; inversecolors stays in restProps
+    // so it reaches MuiButton's ownerState and the styleOverrides ternaries can see it.
     const { variant, inversecolors } = props, restProps = __rest(props, ["variant", "inversecolors"]);
-    return (react_1.default.createElement(Button_1.default, Object.assign({ id: variant, variant: variant, sx: (theme) => {
+    return (react_1.default.createElement(Button_1.default, Object.assign({ id: variant, variant: variant }, { inversecolors }, { sx: (theme) => {
             const inverseColor = inversecolors && variant === 'contained' ? theme.palette.text.primary : theme.palette.action.selectedInverse;
             return {
                 color: inversecolors ? inverseColor : '',
