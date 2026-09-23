@@ -234,7 +234,7 @@ const verfiyAdapterLocale = (adapterLocale) => {
     }
 };
 const PickersLocalizationProvider = (_a) => {
-    var { adapterLocale: adapterLocaleProp = 'en', onLocaleLoad } = _a, rest = __rest(_a, ["adapterLocale", "onLocaleLoad"]);
+    var { adapterLocale: adapterLocaleProp = 'en', onLocaleLoad, weekStartsOn = 1 } = _a, rest = __rest(_a, ["adapterLocale", "onLocaleLoad", "weekStartsOn"]);
     const [adapterLocale, setAdapterLocale] = (0, react_1.useState)('en');
     (0, react_1.useEffect)(() => {
         if (adapterLocaleProp !== undefined && typeof adapterLocaleProp === 'string') {
@@ -249,8 +249,8 @@ const PickersLocalizationProvider = (_a) => {
         }
     }, [adapterLocaleProp, onLocaleLoad]);
     verfiyAdapterLocale(adapterLocaleProp);
-    // Set Monday as the first day of the week in the calendar
-    dayjs.Ls[`${adapterLocale}`].weekStart = 1;
+    // Set the first day of the week in the calendar (defaults to Monday)
+    dayjs.Ls[`${adapterLocale}`].weekStart = weekStartsOn;
     return react_1.default.createElement(LocalizationProvider_1.LocalizationProvider, Object.assign({}, rest, { adapterLocale: adapterLocale, localeText: getLocaleText(adapterLocaleProp) }));
 };
 __exportStar(require("@mui/x-date-pickers/LocalizationProvider"), exports);

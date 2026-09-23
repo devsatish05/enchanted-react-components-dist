@@ -93,12 +93,7 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
             zIndex: 1,
         }), [`& .${x_data_grid_1.gridClasses['row--borderBottom']} .${x_data_grid_1.gridClasses.filler}`]: {
             borderBottom: `1px ${theme.palette.border.primary} solid !important`,
-        }, 
-        // In MUI v7, border-bottom on column header cells (from row--borderBottom) is added ON TOP
-        // of the row height (37px content + 1px border = 38px visible). In v5, the border was on
-        // the container with box-sizing: border-box, so it was INCLUDED within 37px.
-        // This fix uses box-sizing: border-box so the border fits within the inline height.
-        [`& .${x_data_grid_1.gridClasses['row--borderBottom']} .${x_data_grid_1.gridClasses.columnHeader}`]: {
+        }, [`& .${x_data_grid_1.gridClasses['row--borderBottom']} .${x_data_grid_1.gridClasses.columnHeader}`]: {
             boxSizing: 'border-box',
             borderBottom: `1px ${theme.palette.border.primary} solid !important`,
         }, [`& .${x_data_grid_1.gridClasses['row--borderBottom']} .${x_data_grid_1.gridClasses.scrollbarFiller}`]: {
@@ -107,10 +102,7 @@ const StyledDataGrid = (0, material_1.styled)(x_data_grid_1.DataGrid)((props) =>
             gap: '0',
         }, '& .MuiDataGrid-hide-checkbox > .MuiDataGrid-cell': {
             borderTop: 'none',
-        }, 
-        // Remove default MUI withBorderColor border from column headers.
-        // The row--borderBottom border (set above with higher specificity + !important) is preserved.
-        '& .MuiDataGrid-withBorderColor, & .MuiDataGrid-columnHeader': {
+        }, '& .MuiDataGrid-withBorderColor, & .MuiDataGrid-columnHeader': {
             borderBottom: 'none',
         }, '& .MuiDataGrid-row': {
             '.MuiCheckbox-root': {
